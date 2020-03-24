@@ -1,6 +1,3 @@
-#!/bin/bash
-
-
 totalWinLoss () {
 	no=$1
 	totalArray[0]=0
@@ -54,38 +51,3 @@ done
 noOfTwenty=$((days/20))
 
 totalWinLoss $noOfTwenty
-
-dayCount=1
-for i in ${arr[@]}
-do
-	if [[ "$i" -gt "100" ]]
-	then
-		echo "You won on day "$dayCount "with profit of" $((i-100))
-	else
-		echo "You lost on day "$dayCount "with loss of" $i
-	fi
-	dayCount=$((dayCount+1))
-done
-
-echo Lucky days are:
-days=1
-for i in ${arr[@]}
-do
-	if [[ "$i" -gt "100" ]] 
-	then 
-		echo -n $days" " 
-	fi
-	days=$((days+1))
-done
-echo
-
-echo Unlucky days are 
-days=1
-for i in ${arr[@]}
-do
-	if [[ "$i" -lt "100" ]] 
-	then 
-		echo -n $days" " 
-	fi
-	days=$((days+1))
-done
