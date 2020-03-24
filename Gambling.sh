@@ -2,24 +2,44 @@
 
 
 totalWinLoss () {
-	total=0
-	for i in ${arr[@]}
+	no=$1
+	totalArray[0]=0
+	for ((j=1;j<=$no;j++))
 	do
-		total=$((total+i))
+		total=0
+		startIndex=("$echo `expr $(((j-1)*20))`")
+		count=0
+		endIndex=("$echo `expr $((j*20))`")
+		for i in ${arr[@]}
+		do
+			if [ $count -gt $endIndex ]
+			then
+				break
+			elif [ $count -lt $startIndex ]
+			then
+				count=$((count+1))
+				continue
+			fi
+			total=$((total+i))
+			count=$((count+1))
+		done
+		totalStake=$((20*100))
+		totalArray[$j]=`echo " $((total-totalStake)) + ${totalArray[$((j-1))]}" | bc`
+		ele=${totalArray[$j]}
+		if [[ "${totalArray[$j]}" -gt "0" ]]
+		then
+			echo "You won in "$((20*j)) "days :" ${totalArray[$j]}
+		elif [[ "${totalArray[$j]}" -lt "0" ]]
+		then
+			echo "You lose in "$((20*j)) "days :" ${totalArray[$j]}
+		else
+			echo "No win No loss"
+		fi
 	done
-	totalStake=$((days*100))
-	if [ $total -lt $totalStake ]
-	then
-		echo "Total loss after 20 days :"$((totalStake-total))
-	elif [ $total -gt $totalStake ]
-	then
-		echo "Total winning after 20 days :"$((total-totalStake))
-	else
-		echo "No win No loss"
-	fi
 }
 
-days=20
+days=$((RANDOM%80+21))
+arr[0]=0
 for ((i=1;i<=$days;i++))
 do
 	stake=100
@@ -31,5 +51,6 @@ do
 	arr[$i]=$stake
 done
 
+noOfTwenty=$((days/20))
 
-totalWinLoss
+totalWinLoss $noOfTwenty
