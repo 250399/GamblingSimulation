@@ -38,19 +38,26 @@ totalWinLoss () {
 	done
 }
 
-days=$((RANDOM%80+21))
+days=$((RANDOM))
 arr[0]=0
+monthCount=1
 for ((i=1;i<=$days;i++))
 do
 	stake=100
-	betAmount=1 
+	betAmount=1
+	if [ $i -eq $((20*monthCount)) ]
+	then
+		monthCount=$((monthCount+1))
+		read -p"Dou you want to continue 1/0" ch
+		[ $ch -eq 1 ] && echo || break
+	fi 
 	while [ $stake -gt 50 -a $stake -lt 150  ]
 	do
 		[ $((RANDOM%2)) -eq 1 ] && stake=$((stake+betAmount)) || stake=$((stake-betAmount))
 	done
 	arr[$i]=$stake
 done
-
+days=${#arr[@]}
 noOfTwenty=$((days/20))
 
 totalWinLoss $noOfTwenty
